@@ -1,0 +1,44 @@
+1. Maven Dependency
+
+<!-- https://mvnrepository.com/artifact/log4j/log4j -->
+<dependency>
+    <groupId>log4j</groupId>
+    <artifactId>log4j</artifactId>
+    <version>1.2.17</version>
+</dependency>
+
+2. log4j.properties
+
+You need to create a file with the above name.
+
+# Root logger option
+log4j.rootLogger=DEBUG, file
+
+# Direct log messages to a log file
+log4j.appender.file=org.apache.log4j.RollingFileAppender
+#this is where you specify the name of the log file
+log4j.appender.file.File=transactions.log
+log4j.appender.file.MaxFileSize=10MB
+log4j.appender.file.MaxBackupIndex=10
+log4j.appender.file.layout=org.apache.log4j.PatternLayout
+log4j.appender.file.layout.ConversionPattern=%d{yyyy-MM-dd HH:mm:ss} %-5p %c{1}:%L - %m%n
+
+3. Instantiating the instance of type Logger
+
+Note: You need to put this in each class you are utilizing log4j logging. MAKE SURE YOU IMPORT THE LOG4J LIBRARY, I MESSED THIS PART UP.
+
+static final Logger log = Logger.getLogger(App.class);
+
+4. Telling the JVM where your .properties file exists
+
+In my main method in my App class, the very first thing I do is tell the JVM the location of my .properties file.
+
+In my example, I created a folder resources, located in src\main\
+
+
+    	PropertyConfigurator.configure(System.getProperty("user.dir") + File.separator +
+                "\\src\\main\\resources\\log4j.properties");
+
+5. Finally, tell the Logger object what you want it to append to the log file
+
+    		log.info("$" + df.format(amount) + " added to checking account. Customer id: " + customerId);
